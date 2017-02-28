@@ -12,18 +12,7 @@
         </div>
         <div class="todo-body">
           <ul v-if="todoList.length > 0">
-            <li v-for="item in todoList">
-              <el-row>
-                <el-col :span="18">
-                  <el-checkbox v-model="item.checked" @change="itemCheckedChange(item.id)">
-                    <span v-bind:class="{ 'line-through' : item.checked }">{{ item.context }}</span>
-                  </el-checkbox>
-                </el-col>
-                <el-col :span="6" class="btnCol">
-                  <el-button type="danger" @click="todoDel(item.id)">delete</el-button>
-                </el-col>
-              </el-row>
-            </li>
+            <Item v-for="item in todoList" :item="item" :todoDel="todoDel" :itemCheckedChange="itemCheckedChange" />
           </ul>
           <div v-else>
             No Data.
@@ -37,7 +26,7 @@
               </el-checkbox>
             </el-col>
             <el-col :span="6" class="btnCol">
-              <el-button type="danger" @click="todoDelFinish">delete finished</el-button>
+              <el-button v-if="deleteFinished" type="danger" @click="todoDelFinish">delete finished</el-button>
             </el-col>
           </el-row>
         </div>
@@ -48,6 +37,7 @@
 
 <script>
 import store from 'store';
+import Item from './Item.vue';
 
 export default {
   data () {
@@ -67,15 +57,22 @@ export default {
   },
 
   computed: {
-    checkNum: function () {
+    checkNum() {
       return this._getCheckedNum();
     },
-    total: function(){
+    total(){
       return this.todoList.length;
     },
-    allChecked: function(){
+    allChecked(){
       return this._getCheckedNum() == this.todoList.length;
-    }
+    },
+    deleteFinished(){
+      return this._getCheckedNum() > 0;
+    },
+  },
+
+  components: {
+    Item
   },
 
   methods: {
@@ -177,10 +174,7 @@ export default {
 }
 </script>
 
-<style>
-.line-through{
-  text-decoration: line-through;
-}
+<style scoped>
 body {
   font-family: Helvetica, sans-serif;
 }
@@ -201,25 +195,14 @@ body {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-.todo-body ul li,.todo-footer{
-  height: 62px;
-  line-height: 42px;
-  box-sizing: border-box;
-  padding:10px;
-}
-.todo-body ul li{
-  border-top:1px solid #ddd;
-}
-.todo-body ul li:first-child{
-  border-top:0;
-}
-.todo-body ul li .checkBoxCol{
-
-}
 .btnCol{
   text-align:center;
 }
 .todo-footer{
+  height: 62px;
+  line-height: 42px;
+  box-sizing: border-box;
+  padding:10px;
   margin-top: 16px;
   text-align:left;
   border-radius: 4px;
