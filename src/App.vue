@@ -15,7 +15,7 @@
             <li v-for="item in todoList">
               <el-row>
                 <el-col :span="18">
-                  <el-checkbox v-model="item.checked">
+                  <el-checkbox v-model="item.checked" @change="itemCheckedChange(item.id)">
                     <span v-bind:class="{ 'line-through' : item.checked }">{{ item.context }}</span>
                   </el-checkbox>
                 </el-col>
@@ -47,19 +47,22 @@
 </template>
 
 <script>
+import store from 'store';
+
 export default {
   data () {
-
     const initialTodoList = [{
         id : new Date().getTime(),
         context : 'TODO1',
         checked : false,
-    },]
+    },];
+
+    const todoList = store.get('vue_limit_todoList') ? store.get('vue_limit_todoList') : initialTodoList;
 
     return {
       msg: 'Vue TodoList',
       todoText: '',
-      todoList: initialTodoList,
+      todoList: todoList,
     }
   },
 
@@ -76,6 +79,10 @@ export default {
   },
 
   methods: {
+    saveTodoList(){
+      store.set('vue_limit_todoList',this.todoList);
+      return this;
+    },
     todoEnter(todoText) {
       if(todoText == ""){
         this.$message({
@@ -101,6 +108,10 @@ export default {
         checked : false,
       }
       this.todoList.push(todo);
+      this.saveTodoList();
+    },
+    itemCheckedChange(id){
+      this.saveTodoList();
     },
     todoDel(id) {
       let index = this._getToDoIndex(id);
@@ -115,6 +126,7 @@ export default {
         this.todoList = this.todoList.filter( (item,index) => {
           return item.id != id;
         });
+        this.saveTodoList();
       }).catch(() => {
         //  取消删除        
       });
@@ -122,16 +134,26 @@ export default {
     allCheckedChange(event){
       const allChecked = event.target.checked;
       this.todoList.map(item => item.checked = allChecked);
+      this.saveTodoList();
     },
     todoDelFinish(){
+      if(this._getCheckedNum() < 1){
+          this.$message({
+            message: 'No finished to be deleted.',
+            type: 'error',
+            duration : 1000,
+          });
+          return false;
+      }
       this.$confirm('Delete finished?', 'Tips', {
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',
         type: 'warning'
       }).then(() => {
         this.todoList = this.todoList.filter( (item,index) => {
-          return item.checked = false;
+          return item.checked == false;
         });
+        this.saveTodoList();
       }).catch(() => {
         //  取消删除        
       });
@@ -139,7 +161,7 @@ export default {
     _getToDoIndex(id) {
       return this.todoList.findIndex(function(item, index, arr) {
         return item.id == id;
-      })
+      });
     },
     _getCheckedNum(){
       return this.todoList.filter((item,index)=>{

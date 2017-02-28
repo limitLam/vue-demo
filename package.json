@@ -30,6 +30,7 @@
     "html-webpack-plugin": "^2.24.1",
     "postcss-loader": "^1.2.1",
     "rimraf": "^2.5.4",
+    "store": "^1.3.20",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "vue-loader": "^10.0.0",
