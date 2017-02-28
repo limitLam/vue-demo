@@ -1,75 +1,93 @@
-var path = require('path')
-var webpack = require('webpack')
+const {
+  resolve
+} = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const url = require('url')
+const publicPath = ''
 
-module.exports = {
-  entry: './src/main.js',
+const host = 'localhost'
+const port = 8086
+
+module.exports = (options = {}) => ({
+  entry: {
+    index: './src/main.js'
+  },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
-    filename: 'build.js'
+    path: resolve(__dirname, 'dist'),
+    filename: options.dev ? '[name].js' : '[name].js?[chunkhash]',
+    chunkFilename: '[id].js?[chunkhash]',
+    publicPath: options.dev ? '/assets/' : publicPath
   },
   module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
+    rules: [{
+      test: /\.vue$/,
+      use: ['vue-loader']
+    }, {
+      test: /\.js$/,
+      use: ['babel-loader'],
+      exclude: /node_modules/
+    }, {
+      test: /\.html$/,
+      use: [{
+        loader: 'html-loader',
         options: {
-          loaders: {
-            // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
-            // the "scss" and "sass" values for the lang attribute to the right configs here.
-            // other preprocessors should work out of the box, no loader config like this necessary.
-            'scss': 'vue-style-loader!css-loader!sass-loader',
-            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
-          }
-          // other vue-loader options go here
+          root: resolve(__dirname, 'src'),
+          attrs: ['img:src', 'link:href']
         }
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
+      }]
+    }, {
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader', 'postcss-loader']
+    }, {
+      test: /favicon\.png$/,
+      use: [{
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
-    ]
+      }]
+    }, {
+      test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
+      exclude: /favicon\.png$/,
+      use: [{
+        loader: 'url-loader',
+        options: {
+          limit: 10000
+        }
+      }]
+    }]
   },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor', 'manifest']
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    })
+  ],
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.common.js'
+      '~': resolve(__dirname, 'src')
     }
   },
   devServer: {
-    historyApiFallback: true,
-    noInfo: true
+    stats: 'errors-only',
+    host: host,
+    port: port,
+    // historyApiFallback: true,
+    // proxy: {
+    //   '/api/': {
+    //     target: 'http://127.0.0.1:8080',
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   }
+    // },
+    historyApiFallback: {
+      index: url.parse(options.dev ? '/assets/' : publicPath).pathname
+    }
   },
-  performance: {
-    hints: false
-  },
-  devtool: '#eval-source-map'
-}
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
-  module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  ])
-}
+  devtool: options.dev ? '#eval-source-map' : '#source-map'
+})
