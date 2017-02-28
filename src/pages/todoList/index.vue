@@ -177,9 +177,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-  font-family: Helvetica, sans-serif;
-}
 .container{
   margin:0 auto;
   width:700px;
