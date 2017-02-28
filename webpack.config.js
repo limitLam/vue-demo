@@ -9,6 +9,8 @@ const publicPath = ''
 const host = 'localhost'
 const port = 8086
 
+const srcPath = resolve(__dirname, 'src');
+
 module.exports = (options = {}) => ({
   entry: {
     index: './src/main.js'
@@ -68,7 +70,8 @@ module.exports = (options = {}) => ({
   ],
   resolve: {
     alias: {
-      '~': resolve(__dirname, 'src')
+      'ASSETS': resolve(srcPath, './assets'),
+      'PAGES': resolve(srcPath, './pages')
     }
   },
   devServer: {

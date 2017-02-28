@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="container">
-      <img src="./assets/logo.png">
+      <img :src="logo">
       <h1>{{ msg }}</h1>
       <div class="todoList">
         <div class="todo-header">
@@ -38,6 +38,7 @@
 <script>
 import store from 'store';
 import Item from './Item.vue';
+import logo from 'ASSETS/logo.png';
 
 export default {
   data () {
@@ -50,6 +51,7 @@ export default {
     const todoList = store.get('vue_limit_todoList') ? store.get('vue_limit_todoList') : initialTodoList;
 
     return {
+      logo: logo,
       msg: 'Vue TodoList',
       todoText: '',
       todoList: todoList,

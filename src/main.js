@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
-import App from './App.vue'
+import App from 'PAGES/todoList/App.vue'
 import store from 'store'
 
 Vue.use(ElementUI)
