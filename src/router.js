@@ -17,6 +17,9 @@ const router = new VueRouter({
 			path: '',
 			component: Index
 		}, {
+			path: 'index',
+			redirect: '/'
+		}, {
 			// 当 /todoList 匹配成功，
 			// Index 会被渲染在 Layout 的 <router-view> 中
 			path: 'todoList',
