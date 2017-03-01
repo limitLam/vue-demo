@@ -69,7 +69,10 @@ module.exports = (options = {}) => ({
     })
   ],
   resolve: {
+    extensions: ['.vue', '.js'],
+    // extensions that are used
     alias: {
+      'vue': 'vue/dist/vue.js',
       'ASSETS': resolve(srcPath, './assets'),
       'PAGES': resolve(srcPath, './pages')
     }

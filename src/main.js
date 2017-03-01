@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
-import App from 'PAGES/layouts/index.vue'
 import store from 'store'
+import VueRouter from 'vue-router'
+import router from './router';
 
 Vue.use(ElementUI)
+Vue.use(VueRouter)
+
+
 
 new Vue({
-	el: '#app',
-	render: h => h(App)
-})
+	router,
+	template: `<div id="app"><router-view /></div>`,
+}).$mount('#app')

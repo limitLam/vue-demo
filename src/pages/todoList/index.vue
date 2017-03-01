@@ -37,7 +37,7 @@
 
 <script>
 import store from 'store';
-import Item from './Item.vue';
+import Item from './Item';
 import logo from 'ASSETS/logo.png';
 
 export default {

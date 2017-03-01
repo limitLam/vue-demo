@@ -7,7 +7,7 @@
 			</el-col>
 			<el-col :span="18" class="bodyCol">
 				<div class="container">
-					container
+					<router-view />
 				</div>
 			</el-col>
 		</el-row>
@@ -16,9 +16,9 @@
 </template>
 
 <script>
-	import LayoutHeader from './components/header.vue';
-	import LayoutFooter from './components/footer.vue';
-	import LayoutNav from './components/nav.vue';
+	import LayoutHeader from './components/header';
+	import LayoutFooter from './components/footer';
+	import LayoutNav from './components/nav';
 
 	export default {
 		data() {
@@ -41,6 +41,10 @@
 	}
 	body {
 	  font-family: Helvetica, sans-serif;
+	}
+	#app{
+		width:100%;
+		height:100%;
 	}
 	.example-tips{
 		text-align: center;
