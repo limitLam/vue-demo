@@ -1,5 +1,5 @@
 <template>
-	<el-menu default-active="2" class="el-menu-vertical-demo nav" router="true" @open="handleOpen" @close="handleClose">
+	<el-menu default-active="2" class="el-menu-vertical-demo nav" router @open="handleOpen" @close="handleClose">
       <el-submenu index="1">
         <template slot="title"><i class="el-icon-message"></i>导航一</template>
         <el-menu-item-group>

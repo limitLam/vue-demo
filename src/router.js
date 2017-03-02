@@ -1,9 +1,10 @@
 import VueRouter from 'vue-router'
 
-import Layout from 'PAGES/layouts/index'
-import Index from 'PAGES/index/index'
-import TodoList from 'PAGES/todoList/index'
-import ErrorPage from 'PAGES/error/index'
+import Layout from 'PAGES/layouts'
+import Index from 'PAGES/index'
+import TodoList from 'PAGES/todoList'
+import ErrorPage from 'PAGES/error'
+import Crement from 'PAGES/crement'
 
 const router = new VueRouter({
 	mode: 'history',
@@ -24,6 +25,9 @@ const router = new VueRouter({
 			// Index 会被渲染在 Layout 的 <router-view> 中
 			path: 'todoList',
 			component: TodoList
+		}, {
+			path: 'crement',
+			component: Crement
 		}, {
 
 			path: '*',

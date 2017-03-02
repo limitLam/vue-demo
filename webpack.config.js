@@ -81,16 +81,16 @@ module.exports = (options = {}) => ({
     stats: 'errors-only',
     host: host,
     port: port,
-    // historyApiFallback: true,
-    // proxy: {
-    //   '/api/': {
-    //     target: 'http://127.0.0.1:8080',
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       '^/api': ''
-    //     }
-    //   }
-    // },
+    historyApiFallback: true,
+    proxy: {
+      '/api/*': {
+        target: 'http://rap.taobao.org/',
+        pathRewrite: {
+          '^/api': '/mockjs/13701/'
+        },
+        secure: false
+      }
+    },
     historyApiFallback: {
       index: url.parse(options.dev ? '/assets/' : publicPath).pathname
     }
