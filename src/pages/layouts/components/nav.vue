@@ -8,7 +8,7 @@
           <el-menu-item index="todoList">todoList</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
+          <el-menu-item index="crement">crement</el-menu-item>
         </el-menu-item-group>
         <el-submenu index="1-4">
           <template slot="title">选项4</template>
