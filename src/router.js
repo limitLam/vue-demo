@@ -5,6 +5,7 @@ import Index from 'PAGES/index'
 import TodoList from 'PAGES/todoList'
 import ErrorPage from 'PAGES/error'
 import Crement from 'PAGES/crement'
+import Brother from 'PAGES/brother'
 
 const router = new VueRouter({
 	mode: 'history',
@@ -28,6 +29,9 @@ const router = new VueRouter({
 		}, {
 			path: 'crement',
 			component: Crement
+		}, {
+			path: 'brother',
+			component: Brother
 		}, {
 
 			path: '*',

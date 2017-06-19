@@ -74,7 +74,8 @@ module.exports = (options = {}) => ({
     alias: {
       'vue': 'vue/dist/vue.js',
       'ASSETS': resolve(srcPath, './assets'),
-      'PAGES': resolve(srcPath, './pages')
+      'PAGES': resolve(srcPath, './pages'),
+      'UTILS': resolve(srcPath, './utils')
     }
   },
   devServer: {

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <div class="container">
       <img :src="logo">
       <h1>{{ msg }}</h1>
