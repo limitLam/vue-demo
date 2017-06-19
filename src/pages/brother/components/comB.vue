@@ -14,16 +14,15 @@
         },
 
         mounted () {
-            var me = this;
-            Bus.$on('msgChangeB', (msg) =>{
-                me.msg = msg;
-            })
+            Bus.$on('msgChange', (msg) => {
+                this.msg = msg;
+            });
         },
 
         methods : {
             toggle () {
-                this.msg = this.msg == 0 ? 1 : 0;
-                Bus.$emit('msgChangeA', this.msg);      
+                const msg = this.msg == 0 ? 1 : 0;
+                Bus.$emit('msgChange', msg);     
             }
         }
     }
